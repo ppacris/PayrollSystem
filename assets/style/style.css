@@ -1,0 +1,12 @@
+svg {
+	fill: white;
+}
+
+ul .nav-item {
+	transition: transform 0.3s ease;
+}
+
+
+ul .nav-item:hover {
+	transform: translate(0, -10px);
+}
