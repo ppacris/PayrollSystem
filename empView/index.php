@@ -4,7 +4,7 @@ require_once ("../headFoot/up.php");
 
 <div class="container">
 	<center>
-		<h1>Hello View!</h1>
+	    <h1>Hello View!</h1>
 	</center>
 </div>
 

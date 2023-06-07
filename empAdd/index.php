@@ -2,14 +2,14 @@
 require_once ("../headFoot/up.php");
 ?>
 
-<form id="myFormAdd" method="post">
+<form id="myFormAdd">
     <div class="row border rounded shadow mb-4">
         <h4 class="text-center p-2 bg-light rounded-top">Personal Information</h4>
         <div class="col-md-12 pt-1">
             <div class="row mb-3">
                 <div class="col-3">
-                    <label for="EpmloyeeID" class="form-label">Employee ID <span id="DuplicateEmpID"></span></label>
-                    <input type="text" class="form-control" placeholder="Employee ID" onInput="DuplicateEmpID()" id="EmployeeID" name="EmployeeID" required>
+                    <label for="EpmloyeeID" class="form-label">Employee ID</label>
+                    <input type="text" class="form-control" placeholder="Employee ID" id="EmployeeID" name="EmployeeID" required>
                 </div>
                 <div class="col-9">
                     <label for="EmployeeEmail" class="form-label">Email</label>
@@ -57,6 +57,22 @@ require_once ("../headFoot/up.php");
     </div>
 </form>
 
+
 <?php 
 require_once ("../headFoot/down.php");
 ?>
+
+<script src="../assets/module_employee/_functions-event.js"></script>
+
+
+<!-- TOAST NOTIFICATION -->
+<div class="toast-container position-fixed top-0 end-0 p-3">
+    <div id="liveToast" class="toast align-items-center text-bg-success border-0" role="alert" aria-live="assertive" aria-atomic="true">
+        <div class="d-flex">
+            <div class="toast-body">
+                <b>Success!</b>
+            </div>
+            <button type="button" class="btn-close btn-close-white me-2 m-auto" data-bs-dismiss="toast" aria-label="Close"></button>
+        </div>
+    </div>
+</div>
