@@ -1,10 +1,15 @@
 $(document).ready(function () {
     InsertData();
-
-
     DisplayData();
-    UpdateDataPDF();
+    OpenDataPDF();
+
+    const profileTabButton = $("#profile-tab");
+
+    profileTabButton.click(function () {
+        DisplayDataPDF();
+    });
 });
+
 
 // Add submodule
 function InsertData() {
@@ -47,9 +52,34 @@ function DisplayData() {
             DisplayDatainsView_Send: DisplayData_insView
         },
         success: function (data, status) {
-            $('#DataTable_InstructorView').html(data);
+            $('#DataTable_EmployeeView').html(data);
             $(document).ready(function () {
-                $('#DB_InstructorTableView').DataTable({
+                $('#DB_EmployeeTableView').DataTable({
+                    deferRender: true,
+                    scrollY: '50vh',
+                    scrollCollapse: true,
+                    order: [
+						[0, 'asc']
+					],
+                });
+            });
+        }
+    })
+}
+
+// Update files submodule, Display Record in the Database (<div id="DataTable_InsertPDF"></div>)
+function DisplayDataPDF() {
+    var DisplayData_PDF = "true";
+    $.ajax({
+        url: '../assets/module_employee/emp-viewPdf.php',
+        method: 'POST',
+        data: {
+            DisplayData_PDF_Send: DisplayData_PDF
+        },
+        success: function (data, status) {
+            $('#DataTable_InsertPDF').html(data);
+            $(document).ready(function () {
+                $('#DB_PDFTableView').DataTable({
                     deferRender: true,
                     scrollY: '50vh',
                     scrollCollapse: true,
@@ -65,10 +95,9 @@ function DisplayData() {
 // Update files submodule, get row ID
 function GetData(updateID) {
     $('#hiddenID').val(updateID);
-    $.post('../assets/module_employee/emp-insertPDF.php', {
+    $.post('../assets/module_employee/getID.php', {
         updateID_Send: updateID
-    }, function (data, status) {});
-    $('#pdfModal').modal('show');
+    });
 }
 
 function UpdateDataPDF() {
@@ -92,6 +121,29 @@ function UpdateDataPDF() {
                     toastBootstrap_Add = toastBootstrap_Add || bootstrap.Toast.getOrCreateInstance(toastLiveExample);
                     toastBootstrap_Add.show();
                 }
+            },
+            error: function (error) {
+                alert('Form submission failed:', error);
+            }
+        });
+    });
+}
+
+function OpenDataPDF() {
+    $('#myFormViewPDF').submit(function (event) {
+        event.preventDefault();
+
+        // Get the form data
+        var formData = $(this).serialize();
+
+        $.ajax({
+            type: 'POST',
+            url: '../assets/module_employee/pdf.php',
+            data: formData,
+            success: function (response) {
+                // Open the PDF content in a new tab
+                var newTab = window.open();
+                newTab.document.write('<iframe src="data:application/pdf;base64,' + encodeURI(response) + '" style="width: 100%; height: 100%; margin: 0;" frameborder="0" scrolling="auto"></iframe>');
             },
             error: function (error) {
                 alert('Form submission failed:', error);

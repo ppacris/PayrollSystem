@@ -29,8 +29,8 @@ require_once '../assets/db/dbConn.php';
                     </a>
                     <ul class="dropdown-menu">
                         <li><a class="dropdown-item" href="../empAdd/">Add</a></li>
-                        <li><a class="dropdown-item" href="../empUpload/">Upload files</a></li>
-                        <li><a class="dropdown-item" href="../empView/">View</a></li>
+                        <li><a class="dropdown-item" href="../empUpload/">View / PDF</a></li>
+                        <!--<li><a class="dropdown-item" href="../empView/">View</a></li>-->
                     </ul>
                 </li>
                 <li class="nav-link text-white">|</li>

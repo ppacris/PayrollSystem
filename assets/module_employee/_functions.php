@@ -35,48 +35,97 @@ function InsertRecord() {
     }
 }
 
-function DisplayRecord(){
-	global $conn;
-	if(isset($_POST['DisplayDatainsView_Send'])){
-		$table='<table id="DB_InstructorTableView" class="table table-bordered table-hover" style="width:100%">
-				<thead class="table-info">
-					<tr>
-						<th>Employee ID</th>
-						<th>Full Name</th>
-						<th>TOR</th>
-						<th>
-							<center>Edit</center>
-						</th>
-					</tr>
-				</thead>';
-		$query = "SELECT * FROM tbl_employee";
-		$result = mysqli_query($conn, $query);
-		while($row = mysqli_fetch_assoc($result)){
-			$table.='<tr>
-						<td>'.$row['employeeID'].'</td>
-						<td>'.$row['empLname'].' '.$row['empFname'].' '.$row['empMI'].' '.$row['empSuffix'].'</td>
-						<td>'.$row['tor_pdf'].'</td>
-						<td>
-							<center>
-								<button type="button" onclick="GetData('.$row['ID'].')" class="btn btn-primary">
-									<span class=" d-flex justify-content-center align-items-center">
-										<i class="fa-solid fa-user-pen text-light"></i>
-									</span>
-								</button>
-							</center>
-						</td>
-					</tr>';
-		}
-		$table.='</table>';
-		echo $table;
-	}
+function DisplayRecord() {
+    global $conn;
+    if (isset($_POST['DisplayDatainsView_Send'])) {
+        $table = '<table id="DB_EmployeeTableView" class="table table-bordered table-hover" style="width:100%">
+                <thead class="table-info">
+                    <tr>
+                        <th>Employee ID</th>
+                        <th>Full Name</th>
+                        <th>TOR</th>
+                        <th>PDF</th>
+                    </tr>
+                </thead>';
+        $query = "SELECT * FROM tbl_employee";
+        $result = mysqli_query($conn, $query);
+        while ($row = mysqli_fetch_assoc($result)) {
+            $table .= '<tr>
+                        <td>'.$row['employeeID'].'</td>
+                        <td>'.$row['empLname'].' '.$row['empFname'].' '.$row['empMI'].' '.$row['empSuffix'].'</td>
+                        <td>
+                            <center>
+                                <button type="button" onclick="GetData('.$row['ID'].')" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#pdfModal">
+                                    <span class="d-flex justify-content-center align-items-center">
+                                        <i class="fa-solid fa-user-pen text-light"></i>
+                                    </span>
+                                </button>
+                            </center>
+                        </td>
+                        <td>
+                            <center>
+                                <button type="button" onclick="GetData('.$row['ID'].')" class="btn btn-primary">
+                                    <span class="d-flex justify-content-center align-items-center">
+                                        <i class="fa-solid fa-user-pen text-light"></i>
+                                    </span>
+                                </button>
+                            </center>
+                        </td>
+                    </tr>';
+        }
+        $table .= '</table>';
+        echo $table;
+    }
+}
+
+function DisplayRecordPDF() {
+    global $conn;
+    if (isset($_POST['DisplayData_PDF_Send'])) {
+        $table = '<table id="DB_PDFTableView" class="table table-bordered table-hover" style="width:100%">
+                <thead class="table-info">
+                    <tr>
+                        <th>Employee ID</th>
+                        <th>Full Name</th>
+                        <th>test1</th>
+                        <th>test2</th>
+                    </tr>
+                </thead>';
+        $query = "SELECT * FROM tbl_employee";
+        $result = mysqli_query($conn, $query);
+        while ($row = mysqli_fetch_assoc($result)) {
+            $table .= '<tr>
+                        <td>'.$row['employeeID'].'</td>
+                        <td>'.$row['empLname'].' '.$row['empFname'].' '.$row['empMI'].' '.$row['empSuffix'].'</td>
+                        <td>
+                            <center>
+                                <button type="button" onclick="GetData('.$row['ID'].')" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#pdfModal">
+                                    <span class="d-flex justify-content-center align-items-center">
+                                        <i class="fa-solid fa-user-pen text-light"></i>
+                                    </span>
+                                </button>
+                            </center>
+                        </td>
+                        <td>
+                            <center>
+                                <button type="button" onclick="GetData('.$row['ID'].')" class="btn btn-primary">
+                                    <span class="d-flex justify-content-center align-items-center">
+                                        <i class="fa-solid fa-user-pen text-light"></i>
+                                    </span>
+                                </button>
+                            </center>
+                        </td>
+                    </tr>';
+        }
+        $table .= '</table>';
+        echo $table;
+    }
 }
 
 function GetRecord(){
 	global $conn;
 	if(isset($_POST['updateID_Send'])){
 		$recordID = $_POST['updateID_Send'];
-		$query = "SELECT * FROM tbl_employee WHERE ID = $recordID";
+		$query = "SELECT ID FROM tbl_employee WHERE ID = $recordID";
 		$result = mysqli_query($conn, $query);
 		$response = array();
 		while($row = mysqli_fetch_assoc($result)){
@@ -116,5 +165,29 @@ function UpdateRecordPDF() {
                 return false;
             }
         }
+    }
+}
+
+function OpenRecordPDf(){
+    global $conn;
+    
+    $ID = $_POST['hiddenID'];
+    
+    // Fetch the PDF from the database
+    $sql = "SELECT tor_pdfName, tor_pdfFile FROM tbl_employee WHERE ID = $ID";
+    $result = $conn->query($sql);
+    
+    if ($result && $result->num_rows > 0) {
+        $row = $result->fetch_assoc();
+        $pdfName = $row['tor_pdfName'];
+        $pdfContent = $row['tor_pdfFile'];
+
+        // Encode the PDF content as base64
+        $encodedContent = base64_encode($pdfContent);
+
+        // Return the encoded content
+        echo $encodedContent;
+    } else {
+        echo "No PDF found in the database.";
     }
 }

@@ -2,33 +2,56 @@
 require_once ("../headFoot/up.php");
 ?>
 
-<div class="container">
-    <div id="DataTable_InstructorView"></div>
+
+
+<ul class="nav nav-tabs" id="myTab" role="tablist">
+    <li class="nav-item" role="presentation">
+        <button class="nav-link active" id="home-tab" data-bs-toggle="tab" data-bs-target="#home-tab-pane" type="button" role="tab" aria-controls="home-tab-pane" aria-selected="true">View</button>
+    </li>
+    <li class="nav-item" role="presentation">
+        <button class="nav-link" id="profile-tab" data-bs-toggle="tab" data-bs-target="#profile-tab-pane" type="button" role="tab" aria-controls="profile-tab-pane" aria-selected="false">PDF</button>
+    </li>
+</ul>
+<div class="tab-content" id="myTabContent">
+    <div class="tab-pane fade show active" id="home-tab-pane" role="tabpanel" aria-labelledby="home-tab" tabindex="0">
+        <div class="pt-4">
+            <div id="DataTable_EmployeeView"></div>
+        </div>
+    </div>
+    <div class="tab-pane fade" id="profile-tab-pane" role="tabpanel" aria-labelledby="profile-tab" tabindex="0">
+        <div class="pt-4 ">
+            <div id="DataTable_InsertPDF"></div>
+        </div>
+    </div>
 </div>
 
 <!-- Decision Notification Modal -->
 <div class="modal fade" id="pdfModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-    <form id="myFormPDF" method="post" enctype="multipart/form-data">
+    <form id="myFormViewPDF" method="post" enctype="multipart/form-data">
         <div class="modal-dialog modal-sm">
             <div class="modal-content">
                 <div class="modal-body">
-                    <input type="text" id="hiddenID" name="hiddenID">
-                    <input type="file" class="form-control" name="tor_pdfFile" accept=".pdf">
+                    <center>
+                        <input type="text" id="hiddenID" name="hiddenID">
+                        <p>Proceed to open pdf file?</p>
+                    </center>
                 </div>
                 <div class="modal-footer d-flex justify-content-center">
-                    <button type="submit" class="btn btn-primary" data-bs-dismiss="modal" id="submitPDF">Submit</button>
+                    <button type="submit" class="btn btn-primary" data-bs-dismiss="modal" id="submitViewPDF">Yes</button>
                 </div>
             </div>
         </div>
     </form>
-
 </div>
+
 
 <?php 
 require_once ("../headFoot/down.php");
 ?>
 
+
 <script src="../assets/module_employee/_functions-event.js"></script>
+
 
 <!-- TOAST NOTIFICATION -->
 <div class="toast-container position-fixed top-0 end-0 p-3">
