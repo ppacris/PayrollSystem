@@ -1,12 +1,14 @@
 $(document).ready(function () {
     InsertData();
     DisplayData();
+
     OpenDataPDF();
 
     const profileTabButton = $("#profile-tab");
 
     profileTabButton.click(function () {
         DisplayDataPDF();
+        InsertUpdateDataPDF();
     });
 });
 
@@ -108,24 +110,25 @@ function Get1Data(update1ID) {
     });
 }
 
-
-function UpdateDataPDF() {
+function InsertUpdateDataPDF() {
     const toastTrigger = $('#submitAdd');
     const toastLiveExample = $('#liveToast');
     let toastBootstrap_Add;
 
-    $('#myFormPDF').submit(function (event) {
+    $('#myFormInsertPDF').submit(function (event) {
         event.preventDefault();
 
-        // Get the form data
-        var formData = $(this).serialize();
+        // Create a FormData object
+        var formData = new FormData(this);
 
         $.ajax({
             type: 'POST',
-            url: '../assets/module_employee/emp-insertPDF.php',
+            url: '../assets/module_employee/emp-insertupdatePDF.php',
             data: formData,
+            processData: false, // Prevent jQuery from automatically processing the data
+            contentType: false, // Prevent jQuery from automatically setting the content type
             success: function (response) {
-                // Toas Notif
+                console.log(response);
                 if (toastTrigger) {
                     toastBootstrap_Add = toastBootstrap_Add || bootstrap.Toast.getOrCreateInstance(toastLiveExample);
                     toastBootstrap_Add.show();

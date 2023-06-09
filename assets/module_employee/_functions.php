@@ -43,8 +43,8 @@ function DisplayRecord() {
                     <tr>
                         <th>Employee ID</th>
                         <th>Full Name</th>
-                        <th>TOR</th>
-                        <th>PDF</th>
+                        <th>PDF0</th>
+                        <th>PDF1</th>
                     </tr>
                 </thead>';
         $query = "SELECT * FROM tbl_employee";
@@ -55,7 +55,7 @@ function DisplayRecord() {
                         <td>'.$row['empLname'].' '.$row['empFname'].' '.$row['empMI'].' '.$row['empSuffix'].'</td>
                         <td>
                             <center>
-                                <button type="button" onclick="GetData('.$row['ID'].')" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#pdfModal">
+                                <button type="button" id="pdf0" onclick="GetData('.$row['ID'].')" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#pdfModal">
                                     <span class="d-flex justify-content-center align-items-center">
                                         Open
                                     </span>
@@ -64,7 +64,7 @@ function DisplayRecord() {
                         </td>
                         <td>
                             <center>
-                                <button type="button" onclick="GetData('.$row['ID'].')" class="btn btn-primary">
+                                <button type="button" id="pdf1" onclick="GetData('.$row['ID'].')" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#pdfModal">
                                     <span class="d-flex justify-content-center align-items-center">
                                         Open
                                     </span>
@@ -86,8 +86,8 @@ function DisplayRecordPDF() {
                     <tr>
                         <th>Employee ID</th>
                         <th>Full Name</th>
-                        <th>test1</th>
-                        <th>test2</th>
+                        <th>PDF0</th>
+                        <th>PDF1</th>
                     </tr>
                 </thead>';
         $query = "SELECT * FROM tbl_employee";
@@ -107,7 +107,7 @@ function DisplayRecordPDF() {
                         </td>
                         <td>
                             <center>
-                                <button type="button" onclick="Get1Data('.$row['ID'].')" class="btn btn-primary">
+                                <button type="button" onclick="Get1Data('.$row['ID'].')" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#pdf1Modal">
                                     <span class="d-flex justify-content-center align-items-center">
                                         Upload
                                     </span>
@@ -154,39 +154,38 @@ function Get1Record(){
 		$response['message']="Invalid data found";
 	}
 }
-function UpdateRecordPDF() {
+
+function InsertUpdateRecordPDF() {
     global $conn;
 
-    if(isset($_POST['hiddenID'])) {
-        $gethiddenID = $_POST['hiddenID'];
-        
-        // Retrieve the PDF file data
-        if(isset($_FILES['tor_pdfFile']) && $_FILES['tor_pdfFile']['error'] === UPLOAD_ERR_OK) {
-            $pdfData = file_get_contents($_FILES['tor_pdfFile']['tmp_name']);
-            
-            // Update the record in the database
-            $query = "UPDATE tbl_employee SET tor_pdf = ? WHERE ID = ?";
-            $stmt = mysqli_prepare($conn, $query);
-            mysqli_stmt_bind_param($stmt, 'ss', $pdfData, $gethiddenID);
-            $result = mysqli_stmt_execute($stmt);
-            
-            mysqli_stmt_close($stmt);
-            
-            if ($result) {
-                // Update was successful
-                return true;
-            } else {
-                // Handle error case
-                echo "<script>alert('Data update failed!');</script>";
-                return false;
-            }
+    // Get the form data
+    $hidden1ID = $_POST['hidden1ID'];
+
+    // Check if a file was uploaded
+    if (isset($_FILES['insert_torpdf']) && $_FILES['insert_torpdf']['error'] === UPLOAD_ERR_OK) {
+        $file = $_FILES['insert_torpdf'];
+
+        // Read the file contents
+        $pdfContent = file_get_contents($file['tmp_name']);
+
+        // Update the row in the database with the PDF content and filename
+        // Replace 'your_table_name' with your actual table name and 'your_file_column' with the column where you store the PDF contents, and 'your_filename_column' with the column where you store the filename
+        $sql = "UPDATE tbl_employee SET tor_pdfName = ?, tor_pdfFile = ? WHERE ID = ?";
+        $stmt = $conn->prepare($sql);
+        $stmt->bind_param("ssi", $file['name'], $pdfContent, $hidden1ID);
+
+        if ($stmt->execute()) {
+            echo 'File uploaded and database updated successfully.';
+        } else {
+            echo 'Error updating database: ' . $stmt->error;
         }
+    } else {
+        echo 'No file selected or file upload error.';
     }
 }
 
 function OpenRecordPDF(){
     global $conn;
-
     $ID = $_POST['hiddenID'];
 
     // Fetch the PDF from the database
@@ -194,14 +193,14 @@ function OpenRecordPDF(){
     $result = $conn->query($sql);
 
     if ($result && $result->num_rows > 0) {
-        $row = $result->fetch_assoc();
-        $pdfName = $row['tor_pdfName'];
-        $pdfContent = $row['tor_pdfFile'];
+    $row = $result->fetch_assoc();
+    $pdfName = $row['tor_pdfName'];
+    $pdfContent = $row['tor_pdfFile'];
 
-        // Encode the PDF content as base64
-        $encodedContent = base64_encode($pdfContent);
+    // Encode the PDF content as base64
+    $encodedContent = base64_encode($pdfContent);
 
-        echo $encodedContent;
+    echo $encodedContent;
     } else {
         echo "No PDF found in the database.";
     }
