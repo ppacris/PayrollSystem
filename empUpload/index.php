@@ -25,19 +25,39 @@ require_once ("../headFoot/up.php");
     </div>
 </div>
 
-<!-- Decision Notification Modal -->
+<!-- Decision Notification Open PDF Modal -->
 <div class="modal fade" id="pdfModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
     <form id="myFormViewPDF" method="post" enctype="multipart/form-data">
         <div class="modal-dialog modal-sm">
             <div class="modal-content">
                 <div class="modal-body">
                     <center>
-                        <input type="text" id="hiddenID" name="hiddenID">
+                        <input type="text" id="hiddenID" name="hiddenID" hidden>
                         <p>Proceed to open pdf file?</p>
                     </center>
                 </div>
                 <div class="modal-footer d-flex justify-content-center">
                     <button type="submit" class="btn btn-primary" data-bs-dismiss="modal" id="submitViewPDF">Yes</button>
+                </div>
+            </div>
+        </div>
+    </form>
+</div>
+
+<!-- Decision Notification Insert PDF Modal -->
+<div class="modal fade" id="pdf1Modal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <form id="myFormInsertPDF" method="post" enctype="multipart/form-data">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-body">
+                    <label for="insert_torpdf" class="form-label">TOR pdf file:</label>
+                    <center>
+                        <input type="text" id="hidden1ID" name="hidden1ID" hidden>
+                        <input type="file" class="form-control" id="insert_torpdf" name="insert_torpdf" accept=".pdf">
+                    </center>
+                </div>
+                <div class="modal-footer d-flex justify-content-center">
+                    <button type="submit" class="btn btn-primary" data-bs-dismiss="modal" id="">Submit</button>
                 </div>
             </div>
         </div>

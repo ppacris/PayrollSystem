@@ -100,6 +100,15 @@ function GetData(updateID) {
     });
 }
 
+// Update files submodule, get row ID
+function Get1Data(update1ID) {
+    $('#hidden1ID').val(update1ID);
+    $.post('../assets/module_employee/get1ID.php', {
+        update1ID_Send: update1ID
+    });
+}
+
+
 function UpdateDataPDF() {
     const toastTrigger = $('#submitAdd');
     const toastLiveExample = $('#liveToast');
@@ -137,17 +146,17 @@ function OpenDataPDF() {
         var formData = $(this).serialize();
 
         $.ajax({
-            type: 'POST',
-            url: '../assets/module_employee/pdf.php',
-            data: formData,
-            success: function (response) {
+                type: 'POST',
+                url: '../assets/module_employee/pdf.php',
+                data: formData
+            })
+            .done(function (response) {
                 // Open the PDF content in a new tab
                 var newTab = window.open();
-                newTab.document.write('<iframe src="data:application/pdf;base64,' + encodeURI(response) + '" style="width: 100%; height: 100%; margin: 0;" frameborder="0" scrolling="auto"></iframe>');
-            },
-            error: function (error) {
+                newTab.document.write('<html><head><style>body { margin: 0; }</style></head><body><iframe src="data:application/pdf;base64,' + encodeURI(response) + '" style="width: 100%; height: 100%; margin: 0;" frameborder="0" scrolling="auto"></iframe></body></html>');
+            })
+            .fail(function (error) {
                 alert('Form submission failed:', error);
-            }
-        });
+            });
     });
 }

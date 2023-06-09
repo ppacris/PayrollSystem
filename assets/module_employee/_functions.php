@@ -57,7 +57,7 @@ function DisplayRecord() {
                             <center>
                                 <button type="button" onclick="GetData('.$row['ID'].')" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#pdfModal">
                                     <span class="d-flex justify-content-center align-items-center">
-                                        <i class="fa-solid fa-user-pen text-light"></i>
+                                        Open
                                     </span>
                                 </button>
                             </center>
@@ -66,7 +66,7 @@ function DisplayRecord() {
                             <center>
                                 <button type="button" onclick="GetData('.$row['ID'].')" class="btn btn-primary">
                                     <span class="d-flex justify-content-center align-items-center">
-                                        <i class="fa-solid fa-user-pen text-light"></i>
+                                        Open
                                     </span>
                                 </button>
                             </center>
@@ -98,18 +98,18 @@ function DisplayRecordPDF() {
                         <td>'.$row['empLname'].' '.$row['empFname'].' '.$row['empMI'].' '.$row['empSuffix'].'</td>
                         <td>
                             <center>
-                                <button type="button" onclick="GetData('.$row['ID'].')" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#pdfModal">
+                                <button type="button" onclick="Get1Data('.$row['ID'].')" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#pdf1Modal">
                                     <span class="d-flex justify-content-center align-items-center">
-                                        <i class="fa-solid fa-user-pen text-light"></i>
+                                        Upload
                                     </span>
                                 </button>
                             </center>
                         </td>
                         <td>
                             <center>
-                                <button type="button" onclick="GetData('.$row['ID'].')" class="btn btn-primary">
+                                <button type="button" onclick="Get1Data('.$row['ID'].')" class="btn btn-primary">
                                     <span class="d-flex justify-content-center align-items-center">
-                                        <i class="fa-solid fa-user-pen text-light"></i>
+                                        Upload
                                     </span>
                                 </button>
                             </center>
@@ -138,6 +138,22 @@ function GetRecord(){
 	}
 }
 
+function Get1Record(){
+	global $conn;
+	if(isset($_POST['update1ID_Send'])){
+		$recordID = $_POST['update1ID_Send'];
+		$query = "SELECT ID FROM tbl_employee WHERE ID = $recordID";
+		$result = mysqli_query($conn, $query);
+		$response = array();
+		while($row = mysqli_fetch_assoc($result)){
+			$response = $row;
+		}
+		echo json_encode($response);
+	}else{
+		$response['status']=200;
+		$response['message']="Invalid data found";
+	}
+}
 function UpdateRecordPDF() {
     global $conn;
 
@@ -168,15 +184,15 @@ function UpdateRecordPDF() {
     }
 }
 
-function OpenRecordPDf(){
+function OpenRecordPDF(){
     global $conn;
-    
+
     $ID = $_POST['hiddenID'];
-    
+
     // Fetch the PDF from the database
     $sql = "SELECT tor_pdfName, tor_pdfFile FROM tbl_employee WHERE ID = $ID";
     $result = $conn->query($sql);
-    
+
     if ($result && $result->num_rows > 0) {
         $row = $result->fetch_assoc();
         $pdfName = $row['tor_pdfName'];
@@ -185,7 +201,6 @@ function OpenRecordPDf(){
         // Encode the PDF content as base64
         $encodedContent = base64_encode($pdfContent);
 
-        // Return the encoded content
         echo $encodedContent;
     } else {
         echo "No PDF found in the database.";
