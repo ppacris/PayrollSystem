@@ -55,7 +55,7 @@ function DisplayRecord() {
                         <td>'.$row['empLname'].' '.$row['empFname'].' '.$row['empMI'].' '.$row['empSuffix'].'</td>
                         <td>
                             <center>
-                                <button type="button" id="pdf0" onclick="GetData('.$row['ID'].')" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#pdfModal">
+                                <button type="button" onclick="GetData('.$row['ID'].')" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#pdfModal">
                                     <span class="d-flex justify-content-center align-items-center">
                                         Open
                                     </span>
@@ -64,7 +64,7 @@ function DisplayRecord() {
                         </td>
                         <td>
                             <center>
-                                <button type="button" id="pdf1" onclick="GetData('.$row['ID'].')" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#pdfModal">
+                                <button type="button" onclick="GetData('.$row['ID'].')" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#pdfModal">
                                     <span class="d-flex justify-content-center align-items-center">
                                         Open
                                     </span>
@@ -98,7 +98,7 @@ function DisplayRecordPDF() {
                         <td>'.$row['empLname'].' '.$row['empFname'].' '.$row['empMI'].' '.$row['empSuffix'].'</td>
                         <td>
                             <center>
-                                <button type="button" onclick="Get1Data('.$row['ID'].')" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#pdf1Modal">
+                                <button type="button" id="pdf0" onclick="Get1Data('.$row['ID'].')" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#pdf1Modal">
                                     <span class="d-flex justify-content-center align-items-center">
                                         Upload
                                     </span>
@@ -107,7 +107,7 @@ function DisplayRecordPDF() {
                         </td>
                         <td>
                             <center>
-                                <button type="button" onclick="Get1Data('.$row['ID'].')" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#pdf1Modal">
+                                <button type="button" id="pdf1" onclick="Get1Data('.$row['ID'].')" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#pdf1Modal">
                                     <span class="d-flex justify-content-center align-items-center">
                                         Upload
                                     </span>

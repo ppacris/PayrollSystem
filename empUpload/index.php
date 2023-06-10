@@ -2,7 +2,6 @@
 require_once ("../headFoot/up.php");
 ?>
 
-
 <ul class="nav nav-tabs" id="myTab" role="tablist">
     <li class="nav-item" role="presentation">
         <button class="nav-link active" id="home-tab" data-bs-toggle="tab" data-bs-target="#home-tab-pane" type="button" role="tab" aria-controls="home-tab-pane" aria-selected="true">View</button>
@@ -43,7 +42,7 @@ require_once ("../headFoot/up.php");
     </form>
 </div>
 
-<!-- Decision Notification Insert PDF Modal -->
+<!-- Insert PDF Modal -->
 <div class="modal fade" id="pdf1Modal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
     <form id="myFormInsertPDF" method="post" enctype="multipart/form-data">
         <div class="modal-dialog">
@@ -56,21 +55,18 @@ require_once ("../headFoot/up.php");
                     </center>
                 </div>
                 <div class="modal-footer d-flex justify-content-center">
-                    <button type="submit" class="btn btn-primary" data-bs-dismiss="modal" id="">Submit</button>
+                    <button type="submit" class="btn btn-primary" data-bs-dismiss="modal">Submit</button>
                 </div>
             </div>
         </div>
     </form>
 </div>
 
-
 <?php 
 require_once ("../headFoot/down.php");
 ?>
 
-
 <script src="../assets/module_employee/_functions-event.js"></script>
-
 
 <!-- TOAST NOTIFICATION -->
 <div class="toast-container position-fixed top-0 end-0 p-3">

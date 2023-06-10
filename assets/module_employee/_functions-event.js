@@ -44,7 +44,7 @@ function InsertData() {
     });
 }
 
-// Update files submodule, Display Record in the Database (<div id="DataTable_InstructorView"></div>)
+// Display Record in the Database (<div id="DataTable_InstructorView"></div>)
 function DisplayData() {
     var DisplayData_insView = "true";
     $.ajax({
@@ -69,7 +69,7 @@ function DisplayData() {
     })
 }
 
-// Update files submodule, Display Record in the Database (<div id="DataTable_InsertPDF"></div>)
+// Display Record in the Database (<div id="DataTable_InsertPDF"></div>)
 function DisplayDataPDF() {
     var DisplayData_PDF = "true";
     $.ajax({
@@ -129,6 +129,10 @@ function InsertUpdateDataPDF() {
             contentType: false, // Prevent jQuery from automatically setting the content type
             success: function (response) {
                 console.log(response);
+
+                // Clear the form
+                $('#myFormInsertPDF')[0].reset();
+
                 if (toastTrigger) {
                     toastBootstrap_Add = toastBootstrap_Add || bootstrap.Toast.getOrCreateInstance(toastLiveExample);
                     toastBootstrap_Add.show();
